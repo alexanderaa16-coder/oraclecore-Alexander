@@ -225,20 +225,95 @@ No se aceptó el uso de `WHEN OTHERS THEN NULL` ni el ocultamiento de errores.
 
 La ejecución y validación final del código se realizó en Oracle SQL Developer.
 
-## 7. Prompts y participación de IA
+## 7. Prompts representativos y resultados de IA
 
-Se utilizaron solicitudes conversacionales iterativas para:
+Durante el desarrollo se utilizaron instrucciones iterativas en ChatGPT. A continuación se registran solicitudes textuales disponibles en el historial de trabajo, junto con los resultados generados y las acciones realizadas por el desarrollador.
 
-- Diseñar el modelo de catálogos.
-- Construir y completar el package PL/SQL.
-- Incorporar validaciones y excepciones propias.
-- Implementar la consulta JSON.
-- Elaborar la consulta de clientes.
-- Diseñar la transferencia y sus controles transaccionales.
-- Preparar los casos de prueba.
-- Revisar la documentación y los commits.
+### 7.1. Preparación del entorno
 
-**Nota sobre la literalidad:** las descripciones anteriores resumen el trabajo realizado; no se presentan como transcripciones textuales de los prompts originales. Para cumplir plenamente el requisito de conservar el texto exacto, deben incorporarse aquí las solicitudes literales del historial de conversación correspondientes a A.1, A.2, A.3, A.4, B y C, junto con el resultado utilizado y las modificaciones realizadas por el desarrollador.
+**Prompt utilizado:**
+
+> Ayúdame a revisar paso a paso si mi computadora está lista con Oracle para el examen de mañana.
+
+**Resultado de IA:** guía para verificar el equipo, preparar Oracle Database, configurar la conexión local y utilizar SQL Developer.
+
+**Acción del desarrollador:** realizó las verificaciones en su computadora, instaló Oracle Database Free y configuró la conexión CORE_DEV mediante localhost:1521/FREEPDB1.
+
+### 7.2. Selección de instalación
+
+**Instrucción del desarrollador:**
+
+> ya tengo git solo falta la configuracion , me ire por el exe de oracle , no docker
+
+**Resultado de IA:** adaptación de las instrucciones de instalación y configuración al uso de Oracle mediante instalador ejecutable, sin utilizar Docker.
+
+**Acción del desarrollador:** continuó con la instalación local y la configuración de SQL Developer.
+
+### 7.3. Validaciones y mantenimiento de catálogos
+
+**Trabajo realizado:** desarrollo iterativo de las tablas TTEM_CATALOG y TTEM_ITEM, Object Types y package PKG_TTEM_CATALOG.
+
+**Resultado de IA:** propuestas de DDL, especificación y cuerpo del package, procedimientos CRUD, validaciones de existencia y excepciones propias.
+
+**Acción del desarrollador:** ejecutó los scripts en SQL Developer, verificó compilaciones y probó inserciones, actualizaciones, eliminaciones lógicas, duplicados, vigencias inválidas y registros inexistentes.
+
+Como corrección al código inicialmente propuesto se incorporó SQL%ROWCOUNT para comprobar que las operaciones de actualización y eliminación afectaran registros existentes.
+
+### 7.4. Consulta JSON por ItemId
+
+**Trabajo realizado:** implementación del procedimiento OBTENER_ITEM_JSON.
+
+**Resultado de IA:** propuesta de utilización de JSON_OBJECT, parámetro de salida CLOB, formato de fechas YYYY-MM-DD y tratamiento de valores nulos.
+
+**Acción del desarrollador:** compiló y ejecutó el procedimiento en Oracle SQL Developer. Comprobó el JSON correspondiente al ItemId 2 y su representación de validTo como null.
+
+### 7.5. Consulta de clientes — Sección B
+
+**Trabajo realizado:** desarrollo de la consulta SQL por número de cuenta.
+
+**Resultado de IA:** consulta con JOIN, normalización de nombres, CASE para fecha de nacimiento o constitución y LISTAGG para consolidar usuarios OLB.
+
+**Acción del desarrollador:** ejecutó los cinco escenarios del examen y compartió los resultados para su revisión. Se verificaron los casos de personas naturales, jurídicas, usuarios activos y bloqueados, fechas faltantes y cuenta inexistente.
+
+### 7.6. Transferencias bancarias — Sección C
+
+**Trabajo realizado:** diseño e implementación del package PKG_CORE_SETTLEMENT.
+
+**Resultado de IA:** especificación, cuerpo del package, validaciones de negocio, bloqueo mediante SELECT FOR UPDATE, control de referencias duplicadas y manejo transaccional con SAVEPOINT y ROLLBACK TO SAVEPOINT.
+
+**Acción del desarrollador:** compiló el package y ejecutó las seis pruebas funcionales mediante scripts SQL.
+
+Se comprobó especialmente la falla simulada después del débito y antes del crédito. El resultado confirmó que los saldos se restauraron y que no quedó registrado un movimiento con REF-T002.
+
+### 7.7. Documentación y control de versiones
+
+**Prompts textuales utilizados:**
+
+> vamos con el commit y lo del readme agregarlo
+
+> recuerda que tmabine tenemos que subir los de setuo
+
+> dame todo el redmi completo
+
+> dame todo el status
+
+> AI-LOG.MD agregarle desde el inicio
+
+**Resultado de IA:** instrucciones para actualizar README.md, STATUS.md y AI-LOG.md, conservar los scripts setup del examen y ejecutar los comandos de Git para preparar commits y sincronizar GitHub.
+
+**Acción del desarrollador:** editó y guardó los archivos, ejecutó los comandos de Git, resolvió un conflicto de README.md durante un rebase y publicó los cambios en el repositorio.
+
+### 7.8. Observación sobre la transcripción de prompts técnicos
+
+Las solicitudes de las secciones A.1 a A.4, B y C se realizaron mediante múltiples intercambios técnicos. En esta bitácora se documentan sus objetivos, resultados y validaciones. Las frases entrecomilladas corresponden únicamente a mensajes textuales que se pudieron recuperar del historial disponible; los demás apartados son resúmenes de las interacciones, no transcripciones literales.
+
+### 7.9. Evaluación del resultado del uso de IA
+
+La IA aceleró la elaboración de estructuras SQL, procedimientos PL/SQL, consultas y documentación.
+
+El desarrollador mantuvo la responsabilidad de instalar el entorno, ejecutar los scripts, verificar compilaciones, interpretar los errores, validar los resultados y decidir qué implementaciones incorporar al repositorio.
+
+El uso de IA fue iterativo: se revisaron las propuestas, se solicitaron correcciones y se comprobaron los resultados directamente en Oracle Database.
 
 ## 8. Participación aproximada de IA y desarrollador
 
