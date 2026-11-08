@@ -469,13 +469,28 @@ Se verificó que el saldo de origen fue restaurado y que no quedó un movimiento
 
 La prueba confirma que el ROLLBACK TO SAVEPOINT deshace el débito cuando ocurre la falla simulada.
 
+
 ## 9. Sección D — Propuesta técnica de mejora
 
-**Estado: Pendiente de elaboración.**
+**Estado: Hecho — Propuesta documentada.**
 
-Se documentará una propuesta para automatizar el mantenimiento de catálogos, incluyendo el flujo de solicitud, validación, aprobación por un segundo responsable, registro de auditoría y mecanismo de reversión.
+### Automatización del mantenimiento de catálogos
 
-La propuesta final se incorporará en esta sección, respetando el máximo de 20 líneas establecido en el examen.
+1. Automatizaría primero el alta y modificación de comisiones, eliminando las solicitudes por correo y la ejecución manual de scripts en producción.
+2. El solicitante registraría el cambio mediante un formulario o servicio interno, indicando catálogo, código, descripción y vigencias.
+3. El sistema validaría los campos obligatorios, duplicados, estados y coherencia de las fechas.
+4. La solicitud quedaría en estado PENDIENTE, conservando usuario solicitante, fecha y valores propuestos.
+5. Un segundo responsable autorizado revisaría y aprobaría o rechazaría el cambio.
+6. El solicitante no podría aprobar su propia solicitud, garantizando separación de funciones.
+7. Una vez aprobada, un servicio controlado ejecutaría la operación mediante PKG_TTEM_CATALOG.
+8. Se implementaría TTEM_AUDIT_LOG para registrar valores anteriores y nuevos, usuario ejecutor, aprobador, fecha y referencia de solicitud.
+9. La reversión se realizaría mediante una operación compensatoria que restaure los valores anteriores, conservando la trazabilidad.
+10. Los principales riesgos son aprobaciones incorrectas, cambios de vigencia incompatibles y accesos no autorizados.
+11. Se mitigarían mediante validaciones automáticas, control de roles, doble aprobación y pruebas previas a producción.
+12. La implementación requiere apoyo de Negocio, Operaciones, Seguridad, DBA y QA.
+13. Estimo un MVP de 2 a 3 semanas, sujeto a la disponibilidad de los responsables y de la infraestructura de aprobación.
+14. Mediría los resultados mediante reducción de incidentes, tiempo promedio de aprobación, cambios auditados y porcentaje de solicitudes procesadas automáticamente.
+
 
 ## 10. Sección A.5 — Procesamiento masivo
 
