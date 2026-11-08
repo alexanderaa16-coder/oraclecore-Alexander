@@ -264,16 +264,16 @@ Esta proporción es estimativa y debe ajustarse a la contribución real de cada 
 
 ## 9. Estado del alcance
 
-| Sección | Estado |
-|---|---|
-| A.1 — Modelo de catálogos | Hecho |
-| A.2 — Package y Object Types | Hecho |
-| A.3 — Validaciones y excepciones | Hecho |
-| A.4 — Consulta JSON | Hecho |
-| B — Consulta de clientes | Hecho |
-| C — Transferencias | Hecho y probado |
-| D — Propuesta técnica | Pendiente |
-| A.5 — Carga masiva | No implementado (P2) |
+| Sección                          | Estado               |
+| -------------------------------- | -------------------- |
+| A.1 — Modelo de catálogos        | Hecho                |
+| A.2 — Package y Object Types     | Hecho                |
+| A.3 — Validaciones y excepciones | Hecho                |
+| A.4 — Consulta JSON              | Hecho                |
+| B — Consulta de clientes         | Hecho                |
+| C — Transferencias               | Hecho y probado      |
+| D — Propuesta técnica            | Hecho                |
+| A.5 — Carga masiva               | No implementado (P2) |
 
 ## 10. Compromiso de transparencia
 
