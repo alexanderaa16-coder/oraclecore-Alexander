@@ -1,10 +1,10 @@
 
 
-\# Examen Técnico Oracle PL/SQL - Core Bancario
+# Examen Técnico Oracle PL/SQL - Core Bancario
 
 
 
-\## 1. Descripción del proyecto
+## 1. Descripción del proyecto
 
 
 
@@ -16,7 +16,7 @@ El proyecto utiliza Oracle Database Free y SQL Developer.
 
 
 
-\## 2. Avance actual
+## 2. Avance actual
 
 
 
@@ -41,20 +41,19 @@ El proyecto utiliza Oracle Database Free y SQL Developer.
 | A.5 | Carga masiva mediante BULK COLLECT y FORALL | Pendiente |
 
 
-
-\## 3. Herramientas utilizadas
-
+## 3. Herramientas utilizadas
 
 
-\- Motor de base de datos: Oracle Database Free.
 
-\- Cliente SQL: Oracle SQL Developer.
+- Motor de base de datos: Oracle Database Free.
 
-\- Control de versiones: Git y GitHub.
+- Cliente SQL: Oracle SQL Developer.
 
-\- Esquema de trabajo: CORE\_DEV.
+- Control de versiones: Git y GitHub.
 
-\- Conexión local: localhost:1521/FREEPDB1.
+- Esquema de trabajo: CORE\_DEV.
+
+- Conexión local: localhost:1521/FREEPDB1.
 
 
 
@@ -70,7 +69,7 @@ SELECT \* FROM V$VERSION;
 
 
 
-\## 4. Estructura del proyecto
+## 4. Estructura del proyecto
 
 
 
@@ -122,7 +121,7 @@ oraclecore-Alexander/
 
 
 
-\## 5. Orden de ejecución
+## 5. Orden de ejecución
 
 
 
@@ -134,7 +133,7 @@ Ejecutar los scripts en el siguiente orden:
 
 
 
-\### 5.1. Modelo Core Bancario
+### 5.1. Modelo Core Bancario
 
 
 
@@ -156,7 +155,7 @@ Importante: ejecutar los scripts de datos una sola vez sobre un esquema limpio.
 
 
 
-\### 5.2. Modelo de catálogos TTEM
+### 5.2. Modelo de catálogos TTEM
 
 
 
@@ -174,7 +173,7 @@ Se crean las tablas de catálogos e ítems, sus restricciones y los Object Types
 
 
 
-\### 5.3. Package de mantenimiento
+### 5.3. Package de mantenimiento
 
 
 
@@ -192,7 +191,7 @@ Ejecutar primero la especificación y posteriormente el cuerpo del package.
 
 
 
-\### 5.4. Consulta de clientes
+### 5.4. Consulta de clientes
 
 
 
@@ -208,11 +207,11 @@ Ejecutar mediante SQL Developer utilizando F5 e introducir el número de cuenta 
 
 
 
-\## 6. Sección A — Mantenimiento de catálogos
+## 6. Sección A — Mantenimiento de catálogos
 
 
 
-\### A.1. Modelo de datos
+### A.1. Modelo de datos
 
 
 
@@ -222,7 +221,7 @@ Se implementaron las tablas:
 
 \- TTEM\_CATALOG
 
-\- TTEM\_ITEM
+- TTEM\_ITEM
 
 
 
@@ -230,13 +229,13 @@ Se incluyeron restricciones y datos iniciales obligatorios:
 
 
 
-\- Catálogo MONEDA: PEN y USD.
+- Catálogo MONEDA: PEN y USD.
 
-\- Catálogo TIPO\_COMISION: COM\_MANT.
+- Catálogo TIPO\_COMISION: COM\_MANT.
 
 
 
-\### A.2. Package y Object Types
+### A.2. Package y Object Types
 
 
 
@@ -248,9 +247,9 @@ Se crearon:
 
 
 
-\- TYP\_TTEM\_ITEM.
+- TYP\_TTEM\_ITEM.
 
-\- TYP\_TTEM\_ITEM\_TAB.
+- TYP\_TTEM\_ITEM\_TAB.
 
 
 
@@ -258,7 +257,7 @@ La eliminación de ítems es lógica, utilizando el estado correspondiente.
 
 
 
-\### A.3. Validaciones y excepciones propias
+### A.3. Validaciones y excepciones propias
 
 
 
@@ -268,19 +267,19 @@ Se implementaron validaciones para:
 
 \- Existencia del catálogo.
 
-\- Existencia del ítem.
+- Existencia del ítem.
 
-\- Datos obligatorios.
+- Datos obligatorios.
 
-\- Códigos duplicados.
+- Códigos duplicados.
 
-\- Identificadores duplicados.
+- Identificadores duplicados.
 
-\- Vigencias incorrectas.
+- Vigencias incorrectas.
 
-\- Estados no permitidos.
+- Estados no permitidos.
 
-\- Actualización y eliminación de registros inexistentes.
+- Actualización y eliminación de registros inexistentes.
 
 
 
@@ -404,7 +403,7 @@ El procedimiento maneja el caso de un identificador inexistente mediante la exce
 
 
 
-\## 7. Sección B — Consulta de cliente por número de cuenta
+## 7. Sección B — Consulta de cliente por número de cuenta
 
 
 
@@ -424,33 +423,33 @@ La consulta recibe un número de cuenta y devuelve información consolidada de l
 
 
 
-\### Información recuperada
+### Información recuperada
 
 
 
-\- Número de cuenta.
+- Número de cuenta.
 
-\- Tipo de producto.
+- Tipo de producto.
 
-\- Moneda.
+- Moneda.
 
-\- Saldo.
+- Saldo.
 
-\- Estado de la cuenta.
+- Estado de la cuenta.
 
-\- Identificador del cliente.
+- Identificador del cliente.
 
-\- Tipo de persona: Natural o Jurídica.
+- Tipo de persona: Natural o Jurídica.
 
-\- Tipo y número de documento.
+- Tipo y número de documento.
 
-\- Nombre normalizado.
+- Nombre normalizado.
 
-\- Fecha de nacimiento o constitución.
+- Fecha de nacimiento o constitución.
 
-\- Tipo de fecha de referencia.
+- Tipo de fecha de referencia.
 
-\- Usuarios de Banca en Línea y su estado.
+- Usuarios de Banca en Línea y su estado.
 
 
 
@@ -466,7 +465,7 @@ Cuando no existe fecha de nacimiento o constitución, la fecha se presenta vací
 
 
 
-\### Casos de prueba ejecutados
+### Casos de prueba ejecutados
 
 
 
@@ -486,15 +485,14 @@ Cuando no existe fecha de nacimiento o constitución, la fecha se presenta vací
 
 
 
-\### Comportamiento ante cuenta inexistente
+### Comportamiento ante cuenta inexistente
 
 
 
 Cuando el número de cuenta no existe, la consulta no devuelve registros y termina normalmente, sin generar una excepción Oracle.
 
 
-
-\## 8. Sección C — Transferencias bancarias
+## 8. Sección C — Transferencias bancarias
 
 
 
@@ -506,19 +504,19 @@ Se implementará el procedimiento de transferencia entre cuentas, incluyendo:
 
 
 
-\- Validación de cuentas y moneda.
+- Validación de cuentas y moneda.
 
-\- Validación de saldo disponible.
+- Validación de saldo disponible.
 
-\- Control de referencias duplicadas.
+- Control de referencias duplicadas.
 
-\- Bloqueo de cuentas mediante SELECT FOR UPDATE.
+- Bloqueo de cuentas mediante SELECT FOR UPDATE.
 
-\- Actualización de saldos.
+- Actualización de saldos.
 
-\- Registro del movimiento en CORE\_TRX.
+- Registro del movimiento en CORE\_TRX.
 
-\- Manejo de fallas y atomicidad mediante SAVEPOINT y ROLLBACK.
+- Manejo de fallas y atomicidad mediante SAVEPOINT y ROLLBACK.
 
 
 
@@ -526,7 +524,7 @@ Esta sección se documentará cuando termine su implementación y validación.
 
 
 
-\## 9. Sección D — Propuesta técnica
+## 9. Sección D — Propuesta técnica
 
 
 
@@ -537,8 +535,7 @@ Estado: pendiente de documentación.
 Se incorporará una propuesta de mejora para automatizar el mantenimiento de catálogos, incluyendo aprobación, trazabilidad, auditoría y reversión.
 
 
-
-\## 10. Sección A.5 — Carga masiva
+## 10. Sección A.5 — Carga masiva
 
 
 
@@ -550,7 +547,7 @@ Se evaluará la implementación de carga masiva mediante BULK COLLECT y FORALL S
 
 
 
-\## 11. Control de versiones
+## 11. Control de versiones
 
 
 
