@@ -10,6 +10,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
     ) IS
         l_count NUMBER;
     BEGIN
+
         IF p_catalog_id IS NULL THEN
             RAISE_APPLICATION_ERROR(
                 -20005,
@@ -62,7 +63,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             );
         END IF;
 
-        -- Normalizar y validar estado
+        -- Validar estado
         l_status := NVL(
             UPPER(TRIM(p_item.status)),
             'A'
@@ -75,7 +76,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             );
         END IF;
 
-        -- Validar fechas de vigencia
+        -- Validar vigencias
         IF p_item.valid_to IS NOT NULL
            AND p_item.valid_to < p_item.valid_from THEN
 
@@ -130,7 +131,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
         l_count NUMBER;
     BEGIN
 
-        -- Validar datos recibidos
+        -- Validar datos
         validar_datos_item(p_item);
 
         -- Validar catalogo
@@ -155,7 +156,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             p_item.item_code
         );
 
-        -- Insertar registro
+        -- Insertar item
         INSERT INTO ttem_item (
             item_id,
             catalog_id,
@@ -235,7 +236,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             );
         END IF;
 
-        -- Validar existencia del catalogo
+        -- Validar catalogo
         validar_catalogo(p_item.catalog_id);
 
         -- Validar codigo duplicado
@@ -245,7 +246,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             p_item.item_id
         );
 
-        -- Ejecutar actualizacion
+        -- Actualizar item
         UPDATE ttem_item
            SET catalog_id    = p_item.catalog_id,
                item_code     = UPPER(TRIM(p_item.item_code)),
@@ -278,7 +279,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
 
 
     -- =====================================================
-    -- 6. ELIMINAR ITEM (ELIMINACION LOGICA)
+    -- 6. ELIMINAR ITEM (LOGICAMENTE)
     -- =====================================================
 
     PROCEDURE eliminar_item (
@@ -308,7 +309,7 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
             );
         END IF;
 
-        -- Realizar eliminacion logica
+        -- Eliminacion logica
         UPDATE ttem_item
            SET status = 'I',
                updated_by = USER,
@@ -338,10 +339,8 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
 
     BEGIN
 
-        -- Validar catalogo
         validar_catalogo(p_catalog_id);
 
-        -- Obtener items
         SELECT typ_ttem_item(
                    item_id,
                    catalog_id,
@@ -361,6 +360,60 @@ CREATE OR REPLACE PACKAGE BODY pkg_ttem_catalog AS
         RETURN l_items;
 
     END obtener_items_catalogo;
+
+
+    -- =====================================================
+    -- 8. CONSULTAR ITEM EN FORMATO JSON
+    -- =====================================================
+
+    PROCEDURE obtener_item_json (
+        p_item_id IN NUMBER,
+        p_json    OUT CLOB
+    ) IS
+    BEGIN
+
+        -- Validar identificador
+        IF p_item_id IS NULL THEN
+            RAISE_APPLICATION_ERROR(
+                -20005,
+                'El identificador del item es obligatorio'
+            );
+        END IF;
+
+        -- Construir JSON utilizando funciones nativas Oracle
+        SELECT JSON_OBJECT(
+            'itemId'      VALUE i.item_id,
+            'catalogId'   VALUE i.catalog_id,
+            'catalogCode' VALUE c.catalog_code,
+            'itemCode'    VALUE i.item_code,
+            'name'        VALUE i.item_name,
+            'value'       VALUE i.item_value,
+            'status'      VALUE i.status,
+            'validFrom'   VALUE TO_CHAR(
+                               i.valid_from,
+                               'YYYY-MM-DD'
+                           ),
+            'validTo'     VALUE TO_CHAR(
+                               i.valid_to,
+                               'YYYY-MM-DD'
+                           )
+            NULL ON NULL
+            RETURNING CLOB
+        )
+        INTO p_json
+        FROM ttem_item i
+        INNER JOIN ttem_catalog c
+            ON c.catalog_id = i.catalog_id
+        WHERE i.item_id = p_item_id;
+
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            RAISE_APPLICATION_ERROR(
+                -20002,
+                'El item solicitado no existe'
+            );
+
+    END obtener_item_json;
 
 END pkg_ttem_catalog;
 /

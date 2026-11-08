@@ -1,6 +1,9 @@
+
 CREATE OR REPLACE PACKAGE pkg_ttem_catalog AS
 
-    -- Excepciones propias de negocio
+    -- =====================================================
+    -- 1. EXCEPCIONES PROPIAS DE NEGOCIO
+    -- =====================================================
 
     e_catalogo_no_existe EXCEPTION;
     PRAGMA EXCEPTION_INIT(e_catalogo_no_existe, -20001);
@@ -24,23 +27,42 @@ CREATE OR REPLACE PACKAGE pkg_ttem_catalog AS
     PRAGMA EXCEPTION_INIT(e_item_id_duplicado, -20007);
 
 
-    -- Operaciones del catálogo
+    -- =====================================================
+    -- 2. OPERACIONES DE MANTENIMIENTO
+    -- =====================================================
 
     PROCEDURE insertar_item (
         p_item IN typ_ttem_item
     );
 
+
     PROCEDURE actualizar_item (
         p_item IN typ_ttem_item
     );
+
 
     PROCEDURE eliminar_item (
         p_item_id IN NUMBER
     );
 
+
+    -- =====================================================
+    -- 3. CONSULTAR ITEMS POR CATALOGO
+    -- =====================================================
+
     FUNCTION obtener_items_catalogo (
         p_catalog_id IN NUMBER
     ) RETURN typ_ttem_item_tab;
+
+
+    -- =====================================================
+    -- 4. CONSULTAR ITEM EN FORMATO JSON
+    -- =====================================================
+
+    PROCEDURE obtener_item_json (
+        p_item_id IN NUMBER,
+        p_json    OUT CLOB
+    );
 
 END pkg_ttem_catalog;
 /
